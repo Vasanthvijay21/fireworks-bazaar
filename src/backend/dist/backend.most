@@ -1,0 +1,60 @@
+// Version: 3.0.0
+type Category__8224233 =
+  {
+    #AerialShots;
+    #Bombs;
+    #FlowerPots;
+    #GroundChakkar;
+    #Novelty;
+    #Rockets;
+    #Sparklers
+  };
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type OldCategory__901310687 = {#GlutenFree; #Organic; #Savory; #Sweet};
+type OldProduct__278484740 =
+  {
+    category : OldCategory__901310687;
+    description : Text;
+    dietaryTags : [Text];
+    id : Nat;
+    imageUrl : Text;
+    inStock : Bool;
+    ingredients : [Text];
+    name : Text;
+    price : Float
+  };
+type ProductId__160010635 = Nat;
+type ProductId__442338476 = ProductId__160010635;
+type Product__750902660 =
+  {
+    category : Category__8224233;
+    description : Text;
+    effectDuration : Text;
+    id : ProductId__442338476;
+    imageUrl : Text;
+    inStock : Bool;
+    minAge : Nat;
+    name : Text;
+    packSize : Text;
+    price : Nat;
+    safetyRating : Nat
+  };
+actor ({
+  in _seeded : ();
+  in products : List__415060402<OldProduct__278484740>
+}, {
+  stable products :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Product__750902660]];
+      var elementIndex : Nat__490723111
+    }
+}) ;
