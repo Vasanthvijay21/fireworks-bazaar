@@ -11,9 +11,12 @@ import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import {
   AlertTriangle,
   Flame,
+  IndianRupee,
+  Phone,
   ShoppingCart,
   Sparkles,
   Star,
+  Truck,
   Zap,
 } from "lucide-react";
 import { motion } from "motion/react";
@@ -25,37 +28,16 @@ import type { Category, Product } from "../types/product";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "name-asc";
 
-const categoryDisplayMap: Record<Category | "all", string> = {
-  all: "All Fireworks",
-  Sparklers: "Sparklers",
-  Rockets: "Rockets",
-  FlowerPots: "Flower Pots",
-  GroundChakkar: "Ground Chakkar",
-  AerialShots: "Aerial Shots",
-  Bombs: "Bombs",
-  Novelty: "Novelty",
-};
-
 const categoryIcons: Partial<Record<Category, React.ReactNode>> = {
-  AerialShots: <Flame className="w-3.5 h-3.5" />,
-  Rockets: <Sparkles className="w-3.5 h-3.5" />,
-  Bombs: <Zap className="w-3.5 h-3.5" />,
+  "sky-riders": <Sparkles className="w-3.5 h-3.5" />,
+  "multiple-skyriders": <Flame className="w-3.5 h-3.5" />,
+  "sound-blaster": <Zap className="w-3.5 h-3.5" />,
+  "multiple-sound-blaster": <Zap className="w-3.5 h-3.5" />,
 };
 
-const badgeColors: Record<string, string> = {
-  "Family Favorite": "bg-accent/20 text-accent border border-accent/40",
-  "Best Seller": "bg-accent/20 text-accent border border-accent/40",
-  "Crowd Pleaser": "bg-primary/15 text-primary border border-primary/30",
-  "New Arrival": "bg-secondary text-secondary-foreground border border-border",
-  Traditional: "bg-primary/15 text-primary border border-primary/30",
-  Premium: "bg-accent/20 text-accent border border-accent/40",
-  Classic: "bg-muted text-foreground border border-border",
-  Professional: "bg-primary/15 text-primary border border-primary/30",
-  "Grand Finale": "bg-accent/20 text-accent border border-accent/40",
-  "Limited Stock": "bg-muted text-foreground border border-border",
-  "Puja Special": "bg-secondary text-secondary-foreground border border-border",
-  "Photo Worthy": "bg-accent/20 text-accent border border-accent/40",
-};
+function discountPct(actual: number, discount: number) {
+  return Math.round(((actual - discount) / actual) * 100);
+}
 
 function SafetyStars({ rating }: { rating: number }) {
   return (
@@ -76,18 +58,12 @@ function SafetyStars({ rating }: { rating: number }) {
   );
 }
 
-function SafetyWarning({ minAge }: { minAge: number }) {
-  if (minAge <= 5) return null;
-  return (
-    <div className="flex items-center gap-1 text-[10px] font-semibold text-destructive/80">
-      <AlertTriangle className="w-3 h-3" />
-      <span>Age {minAge}+</span>
-    </div>
-  );
-}
-
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const { addItem } = useCart();
+  const pct = discountPct(product.actualPrice, product.discountPrice);
+  const catLabel =
+    categories.find((c) => c.value === product.category)?.label ??
+    product.category;
 
   function handleAdd(e: React.MouseEvent) {
     e.preventDefault();
@@ -96,13 +72,11 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
     toast.success(`${product.name} added to cart`, { duration: 2500 });
   }
 
-  const catDisplay = categoryDisplayMap[product.category] ?? product.category;
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, delay: index * 0.06 }}
+      transition={{ duration: 0.35, delay: index * 0.04 }}
       className="group"
     >
       <Link
@@ -119,11 +93,17 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
               alt={product.name}
               className="w-full h-full object-cover transition-smooth group-hover:scale-105"
               loading="lazy"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&q=60";
+              }}
             />
+            {/* Discount badge */}
+            <span className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md">
+              {pct}% OFF
+            </span>
             {product.badge && (
-              <span
-                className={`absolute top-3 left-3 text-[10px] font-body font-bold uppercase tracking-wider px-2 py-1 rounded-md ${badgeColors[product.badge] ?? "bg-accent/20 text-accent"}`}
-              >
+              <span className="absolute top-2 right-2 bg-accent/90 text-accent-foreground text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md">
                 {product.badge}
               </span>
             )}
@@ -146,36 +126,45 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
                 </span>
               )}
               <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">
-                {catDisplay}
+                {catLabel}
               </span>
             </div>
 
             <h3 className="font-display font-bold text-foreground leading-tight text-base mb-1 line-clamp-2">
               {product.name}
             </h3>
-            <p className="text-sm text-muted-foreground line-clamp-2 mb-2 leading-snug flex-1">
-              {product.description}
-            </p>
 
             {/* Safety row */}
             <div className="flex items-center justify-between mb-3">
               <SafetyStars rating={product.safetyRating} />
-              <SafetyWarning minAge={product.minAge} />
+              {product.minAge > 5 && (
+                <div className="flex items-center gap-1 text-[10px] font-semibold text-destructive/80">
+                  <AlertTriangle className="w-3 h-3" />
+                  <span>Age {product.minAge}+</span>
+                </div>
+              )}
             </div>
 
-            {/* Pack size + price */}
-            <div className="flex items-center justify-between gap-2">
+            {/* Price block */}
+            <div className="flex items-center justify-between gap-2 mt-auto">
               <div>
-                <div className="flex items-baseline gap-1">
-                  <span className="font-display font-bold text-foreground text-lg">
-                    ₹{product.price}
+                {/* Strikethrough actual price */}
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-muted-foreground line-through">
+                    ₹{product.actualPrice}
                   </span>
-                  <span className="text-xs text-muted-foreground">
-                    / {product.packSize}
+                  <span className="text-[10px] font-bold text-primary bg-primary/10 px-1 py-0.5 rounded">
+                    {pct}% OFF
                   </span>
                 </div>
-                <div className="text-[10px] text-muted-foreground">
-                  ⏱ {product.effectDuration}
+                {/* Discount price */}
+                <div className="flex items-baseline gap-1">
+                  <span className="font-display font-bold text-foreground text-lg">
+                    ₹{product.discountPrice}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    / {product.quantityUnit}
+                  </span>
                 </div>
               </div>
               <Button
@@ -219,9 +208,10 @@ export function CataloguePage() {
       );
     }
     const sorted = [...result];
-    if (sortOption === "price-asc") sorted.sort((a, b) => a.price - b.price);
+    if (sortOption === "price-asc")
+      sorted.sort((a, b) => a.discountPrice - b.discountPrice);
     else if (sortOption === "price-desc")
-      sorted.sort((a, b) => b.price - a.price);
+      sorted.sort((a, b) => b.discountPrice - a.discountPrice);
     else if (sortOption === "name-asc")
       sorted.sort((a, b) => a.name.localeCompare(b.name));
     return sorted;
@@ -233,13 +223,39 @@ export function CataloguePage() {
   }
 
   const activeCatLabel =
-    categoryDisplayMap[activeCategory as Category | "all"] ?? activeCategory;
+    categories.find((c) => c.value === activeCategory)?.label ?? activeCategory;
 
   return (
     <div>
+      {/* Shop Info Banner */}
+      <div
+        className="bg-primary text-primary-foreground py-2 px-4"
+        data-ocid="shop-info-banner"
+      >
+        <div className="container max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-xs font-semibold text-center">
+          <span className="flex items-center gap-1.5">
+            <IndianRupee className="w-3.5 h-3.5" />
+            Minimum Order: ₹2500
+          </span>
+          <span className="hidden sm:inline text-primary-foreground/50">|</span>
+          <span className="flex items-center gap-1.5">
+            <Truck className="w-3.5 h-3.5" />
+            Delivery Charges Paid at Time of Delivery
+          </span>
+          <span className="hidden sm:inline text-primary-foreground/50">|</span>
+          <span className="flex items-center gap-1.5">
+            <Phone className="w-3.5 h-3.5" />
+            Call: 7904216920
+          </span>
+          <span className="hidden sm:inline text-primary-foreground/50">|</span>
+          <span className="text-primary-foreground/90">
+            🚫 No Cash on Delivery — UPI/Online Only
+          </span>
+        </div>
+      </div>
+
       {/* Hero Banner */}
       <section className="relative bg-gradient-to-br from-primary/10 via-background to-accent/10 border-b border-border overflow-hidden">
-        {/* Decorative sparkle dots */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {[
             "top-6 left-[10%]",
@@ -254,8 +270,7 @@ export function CataloguePage() {
             />
           ))}
         </div>
-
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-16">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-14">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -264,7 +279,7 @@ export function CataloguePage() {
             >
               <Badge className="bg-accent/15 text-accent border-accent/30 mb-4 text-xs font-semibold uppercase tracking-wider">
                 <Sparkles className="w-3 h-3 mr-1 fill-accent" />
-                Diwali 2024 Collection
+                Sivakasi Crackers 2025
               </Badge>
               <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4">
                 Light Up Your
@@ -272,9 +287,8 @@ export function CataloguePage() {
                 <span className="text-primary">Diwali Night</span>
               </h1>
               <p className="text-muted-foreground text-base leading-relaxed max-w-md mb-2">
-                Celebrate the festival of lights with our premium range of
-                fireworks — sparklers, rockets, aerial shells, and more.
-                Safety-certified and festive-grade.
+                Celebrate with premium Sivakasi fireworks — sparklers, sky
+                riders, fountains, and more. Up to 30% off on all products.
               </p>
               <div className="flex items-center gap-2 text-xs text-muted-foreground mb-6">
                 <AlertTriangle className="w-3.5 h-3.5 text-destructive/70 shrink-0" />
@@ -285,7 +299,7 @@ export function CataloguePage() {
               </div>
               <div className="flex gap-3 flex-wrap">
                 <Button
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg px-6 transition-smooth glow-festive-sm"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg px-6 transition-smooth"
                   onClick={() =>
                     document
                       .getElementById("catalogue")
@@ -299,7 +313,7 @@ export function CataloguePage() {
                 <Button
                   variant="outline"
                   className="border-border font-semibold rounded-lg px-6 transition-smooth"
-                  onClick={() => handleCategory("Sparklers")}
+                  onClick={() => handleCategory("hand-sparklers")}
                   data-ocid="hero-sparklers-cta"
                 >
                   <Sparkles className="w-4 h-4 mr-1.5" />
@@ -317,6 +331,10 @@ export function CataloguePage() {
                 src="/assets/generated/hero-diwali-fireworks.dim_1200x600.jpg"
                 alt="Diwali fireworks celebration"
                 className="w-full rounded-2xl shadow-warm-lg object-cover aspect-[16/9]"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&q=80";
+                }}
               />
             </motion.div>
           </div>
@@ -415,7 +433,7 @@ export function CataloguePage() {
         )}
       </section>
 
-      {/* Trust / Safety section */}
+      {/* Trust section */}
       <section className="bg-muted/30 border-t border-border py-10">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
@@ -427,18 +445,18 @@ export function CataloguePage() {
               },
               {
                 icon: "🚚",
-                title: "Fast Delivery",
-                desc: "Delivered before Diwali, guaranteed",
+                title: "Delivery on Your Doorstep",
+                desc: "Delivery charges applicable — paid at the time of delivery",
               },
               {
                 icon: "🏷️",
-                title: "Best Prices",
-                desc: "Factory-direct pricing, no middlemen",
+                title: "Up to 30% OFF",
+                desc: "Factory-direct pricing from Sivakasi",
               },
               {
-                icon: "⭐",
-                title: "5-Star Ratings",
-                desc: "Trusted by 10,000+ families every year",
+                icon: "📞",
+                title: "Call 7904216920",
+                desc: "Order by phone — quick & easy",
               },
             ].map((item) => (
               <div key={item.title} className="space-y-2">
@@ -453,7 +471,7 @@ export function CataloguePage() {
         </div>
       </section>
 
-      {/* Safety advisory banner */}
+      {/* Safety advisory */}
       <section className="bg-destructive/8 border-t border-destructive/20 py-5">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-start gap-3">

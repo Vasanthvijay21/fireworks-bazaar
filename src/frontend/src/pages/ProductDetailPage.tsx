@@ -5,12 +5,14 @@ import {
   AlertTriangle,
   ArrowLeft,
   Check,
+  IndianRupee,
   Package,
   ShieldAlert,
   ShieldCheck,
   ShoppingCart,
   Sparkles,
   Star,
+  Tag,
   Timer,
   Users,
   Zap,
@@ -23,6 +25,10 @@ import { categories, products } from "../data/products";
 
 const categoryLabel = (cat: string): string =>
   categories.find((c) => c.value === cat)?.label ?? cat;
+
+function discountPct(actual: number, discount: number) {
+  return Math.round(((actual - discount) / actual) * 100);
+}
 
 function StarRating({ rating, max = 5 }: { rating: number; max?: number }) {
   return (
@@ -42,23 +48,21 @@ function StarRating({ rating, max = 5 }: { rating: number; max?: number }) {
 
 const SAFETY_TIPS: Record<number, { label: string; tips: string[] }> = {
   1: {
-    label: "Extreme Caution",
+    label: "Kids Safe",
     tips: [
-      "Only trained adults (18+) should handle this product",
-      "Maintain a minimum 50-metre clearance radius",
-      "Never hold in hand — use a launch tube or stake",
-      "Keep a bucket of water and fire extinguisher nearby",
-      "Check local regulations before use — permit may be required",
+      "Suitable for children aged 5+ with adult supervision",
+      "Keep away from face and clothing",
+      "Dispose used items safely",
+      "Do not put in mouth or near eyes",
     ],
   },
   2: {
-    label: "High Caution",
+    label: "Family Friendly",
     tips: [
-      "Adults only (18+) — no exceptions",
-      "Light fuse and immediately retreat 15 metres",
-      "Never re-light a dud fuse — soak in water and discard",
-      "Use in an open, outdoor area away from crowds",
-      "Keep children and pets indoors during use",
+      "Suitable for children aged 8+ with adult supervision",
+      "Hold sparklers at arm's length",
+      "Never hold near clothing or hair",
+      "Let used sparklers cool before touching",
     ],
   },
   3: {
@@ -72,40 +76,47 @@ const SAFETY_TIPS: Record<number, { label: string; tips: string[] }> = {
     ],
   },
   4: {
-    label: "Family Friendly",
+    label: "High Caution",
     tips: [
-      "Supervise children at all times",
-      "Keep young children (under 6) away from the lighting area",
-      "Use in an open outdoor area",
-      "Dispose safely — douse used items with water",
+      "Adults (14+) only — always supervise younger persons",
+      "Use in open outdoor areas only",
+      "Light fuse and retreat immediately",
+      "Never re-light a dud — soak in water and discard",
+      "Keep children and pets at safe distance",
     ],
   },
   5: {
     label: "Very Safe",
     tips: [
-      "Safe for children with adult supervision",
-      "Hold at arm's length while lit — never point at face",
-      "Do not hold near clothing or hair",
-      "Let used sparklers cool on the ground before touching",
+      "Safe for all ages with adult supervision",
+      "Hold at arm's length while lit",
+      "Do not point at face or clothing",
+      "Let cool completely before disposal",
     ],
   },
 };
 
 const CATEGORY_EFFECTS: Record<string, string> = {
-  Sparklers:
-    "Emits a shower of bright sparks and glittering stars as it burns. Creates magical light trails when waved in the air — perfect for photos and festive moments.",
-  Rockets:
-    "Launches into the sky with a whistling ascent before detonating in a brilliant aerial burst of stars, comets, and crackling effects.",
-  FlowerPots:
-    "A ground-based fountain of sparks that erupts upward in a flower-like plume of colors. Produces a rich, sustained visual display.",
-  GroundChakkar:
-    "Spins rapidly on the ground, emitting colorful sparks in a circular wheel pattern. Builds speed before a final burst of light.",
-  AerialShots:
-    "Launches high-altitude bursts creating large, symmetrical patterns of stars and effects visible from a wide area.",
-  Bombs:
-    "Produces a sharp, satisfying report (bang) with a flash on detonation. Primarily an auditory effect — the classic Diwali sound.",
-  Novelty:
-    "A mixed display product combining multiple effects — smoke, sparks, whistles, or confetti — for a varied festive experience.",
+  "sky-riders":
+    "Launches high into the sky with a whistling ascent before detonating in a brilliant aerial burst of stars and colors.",
+  "multiple-skyriders":
+    "Multiple sky riders launched simultaneously, creating a spectacular synchronized aerial display.",
+  "hand-sparklers":
+    "Emits a shower of bright sparks and glittering stars as it burns — perfect for waving and photos.",
+  "flower-pots":
+    "A ground-based fountain of sparks that erupts upward in a flower-like plume of colors.",
+  "magical-spinner":
+    "Spins rapidly on the ground, emitting colorful sparks in a circular wheel pattern.",
+  "kids-world":
+    "Fun and safe novelty fireworks designed for children, creating delightful visual effects.",
+  "fancy-fountain":
+    "Shoots a sustained fountain of sparks and colorful effects into the air.",
+  "sound-blaster":
+    "Produces a sharp, satisfying report (bang) with a flash on detonation.",
+  "paper-sound-blaster":
+    "Eco-friendly paper crackers delivering satisfying bangs with minimal debris.",
+  "multiple-sound-blaster":
+    "Multiple synchronized crackers creating a powerful festive sound barrage.",
 };
 
 export function ProductDetailPage() {
@@ -143,7 +154,9 @@ export function ProductDetailPage() {
   const categoryEffect =
     CATEGORY_EFFECTS[product.category] ??
     "This product creates a visual display effect when ignited.";
-  const isHighRisk = product.minAge >= 18;
+  const isHighRisk = product.minAge >= 14;
+  const pct = discountPct(product.actualPrice, product.discountPrice);
+  const savings = product.actualPrice - product.discountPrice;
 
   function handleAdd() {
     for (let i = 0; i < qty; i++) addItem(product!);
@@ -192,30 +205,27 @@ export function ProductDetailPage() {
                 src={product.imageUrl}
                 alt={product.name}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80";
+                }}
               />
             </div>
-
-            {/* In stock / Out of stock ribbon */}
+            {/* Discount ribbon */}
             <div
-              className={`absolute top-4 right-4 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider ${
-                product.inStock
-                  ? "bg-green-600/90 text-white"
-                  : "bg-destructive/90 text-destructive-foreground"
-              }`}
+              className="absolute top-4 left-4 bg-primary text-primary-foreground px-3 py-1.5 rounded-lg text-sm font-bold uppercase tracking-wider"
+              data-ocid="product-discount-badge"
+            >
+              {pct}% OFF
+            </div>
+            <div
+              className={`absolute top-4 right-4 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider ${product.inStock ? "bg-green-600/90 text-white" : "bg-destructive/90 text-destructive-foreground"}`}
               data-ocid="product-stock-badge"
             >
               {product.inStock ? "In Stock" : "Out of Stock"}
             </div>
-
-            {/* Age badge overlay */}
             <div
-              className={`absolute bottom-4 left-4 flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold shadow-warm-md ${
-                isHighRisk
-                  ? "bg-destructive text-destructive-foreground"
-                  : product.minAge >= 12
-                    ? "bg-amber-500 text-white"
-                    : "bg-green-600 text-white"
-              }`}
+              className={`absolute bottom-4 left-4 flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold shadow-warm-md ${isHighRisk ? "bg-amber-500 text-white" : "bg-green-600 text-white"}`}
               data-ocid="product-age-badge"
             >
               <Users className="w-4 h-4" />
@@ -230,7 +240,7 @@ export function ProductDetailPage() {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="flex flex-col"
           >
-            {/* Category */}
+            {/* Category + badge */}
             <div className="flex items-center gap-2 mb-2">
               <Badge
                 variant="secondary"
@@ -246,12 +256,15 @@ export function ProductDetailPage() {
             </div>
 
             {/* Name */}
-            <h1 className="font-display text-3xl lg:text-4xl font-bold text-foreground leading-tight mb-4">
+            <h1 className="font-display text-3xl lg:text-4xl font-bold text-foreground leading-tight mb-2">
               {product.name}
             </h1>
+            <p className="text-muted-foreground text-sm mb-4">
+              {product.quantityUnit}
+            </p>
 
             {/* Safety rating */}
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2 mb-5">
               <StarRating rating={product.safetyRating} />
               <span className="text-sm font-medium text-foreground">
                 {safetyInfo.label}
@@ -261,14 +274,34 @@ export function ProductDetailPage() {
               </span>
             </div>
 
-            {/* Price */}
-            <div className="flex items-baseline gap-2 mb-5">
-              <span className="font-display text-4xl font-bold text-foreground">
-                ₹{product.price.toFixed(0)}
-              </span>
-              <span className="text-muted-foreground text-sm">
-                / {product.packSize}
-              </span>
+            {/* Price block */}
+            <div
+              className="bg-muted/40 border border-border/60 rounded-xl p-4 mb-5"
+              data-ocid="product-price-block"
+            >
+              {/* Actual (strikethrough) price */}
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-base text-muted-foreground line-through">
+                  ₹{product.actualPrice}
+                </span>
+                <span className="text-sm font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md">
+                  {pct}% OFF
+                </span>
+              </div>
+              {/* Discount price (sale price) */}
+              <div className="flex items-baseline gap-2">
+                <span className="font-display text-4xl font-bold text-foreground">
+                  ₹{product.discountPrice}
+                </span>
+                <span className="text-muted-foreground text-sm">
+                  / {product.quantityUnit}
+                </span>
+              </div>
+              {/* Savings callout */}
+              <div className="flex items-center gap-1.5 mt-2 text-sm font-semibold text-green-600">
+                <Tag className="w-4 h-4" />
+                You save ₹{savings} on this item!
+              </div>
             </div>
 
             {/* Spec grid */}
@@ -290,18 +323,14 @@ export function ProductDetailPage() {
                 </p>
               </div>
               <div
-                className={`rounded-xl p-3 text-center border ${
-                  isHighRisk
-                    ? "bg-destructive/10 border-destructive/30"
-                    : "bg-muted/50 border-border/50"
-                }`}
+                className={`rounded-xl p-3 text-center border ${isHighRisk ? "bg-amber-500/10 border-amber-500/30" : "bg-muted/50 border-border/50"}`}
               >
                 <ShieldAlert
-                  className={`w-4 h-4 mx-auto mb-1 ${isHighRisk ? "text-destructive" : "text-accent"}`}
+                  className={`w-4 h-4 mx-auto mb-1 ${isHighRisk ? "text-amber-500" : "text-accent"}`}
                 />
                 <p className="text-xs text-muted-foreground mb-0.5">Min Age</p>
                 <p
-                  className={`text-xs font-bold leading-tight ${isHighRisk ? "text-destructive" : "text-foreground"}`}
+                  className={`text-xs font-bold leading-tight ${isHighRisk ? "text-amber-500" : "text-foreground"}`}
                 >
                   {product.minAge}+
                 </p>
@@ -318,7 +347,6 @@ export function ProductDetailPage() {
               className="flex items-center gap-3 mb-5"
               data-ocid="product-cart-controls"
             >
-              {/* Qty selector */}
               <div className="flex items-center border border-border rounded-xl overflow-hidden">
                 <button
                   type="button"
@@ -346,7 +374,6 @@ export function ProductDetailPage() {
                   +
                 </button>
               </div>
-
               <Button
                 size="lg"
                 className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl transition-smooth text-base"
@@ -368,7 +395,7 @@ export function ProductDetailPage() {
               </Button>
             </div>
 
-            <Link to="/cart" className="mb-8">
+            <Link to="/cart" className="mb-6">
               <Button
                 variant="outline"
                 className="w-full rounded-xl border-border transition-smooth"
@@ -378,26 +405,26 @@ export function ProductDetailPage() {
               </Button>
             </Link>
 
-            {/* Age / stock strip */}
-            <div className="flex flex-wrap gap-2">
-              {isHighRisk ? (
-                <Badge variant="destructive" className="text-xs gap-1">
-                  <ShieldAlert className="w-3 h-3" />
-                  Adults Only (18+)
-                </Badge>
-              ) : (
+            {/* Payment note */}
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2.5 text-xs text-foreground/80 flex items-center gap-2">
+              <IndianRupee className="w-4 h-4 text-amber-500 shrink-0" />
+              <span>
+                <strong>Minimum order ₹2500.</strong> Payment via UPI:{" "}
+                <strong>9787549797@upi</strong> — No Cash on Delivery.
+              </span>
+            </div>
+
+            {/* Badges */}
+            <div className="flex flex-wrap gap-2 mt-4">
+              {product.safetyRating <= 2 ? (
                 <Badge className="text-xs gap-1 bg-green-600 text-white hover:bg-green-600">
                   <ShieldCheck className="w-3 h-3" />
-                  {product.minAge}+ Suitable
+                  Kids Friendly
                 </Badge>
-              )}
-              {product.safetyRating >= 4 && (
-                <Badge
-                  variant="secondary"
-                  className="text-xs gap-1 border-accent/30 text-accent"
-                >
-                  <ShieldCheck className="w-3 h-3" />
-                  Family Safe
+              ) : (
+                <Badge variant="secondary" className="text-xs gap-1">
+                  <ShieldAlert className="w-3 h-3" />
+                  {product.minAge}+ Suitable
                 </Badge>
               )}
             </div>
@@ -405,11 +432,10 @@ export function ProductDetailPage() {
         </div>
       </section>
 
-      {/* Effect description */}
+      {/* Effect + Safety section */}
       <section className="bg-muted/30 border-y border-border py-10">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Visual effect */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -447,67 +473,37 @@ export function ProductDetailPage() {
               </div>
             </motion.div>
 
-            {/* Safety warnings panel */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className={`rounded-2xl p-6 border shadow-warm-sm ${
-                isHighRisk
-                  ? "bg-destructive/10 border-destructive/40"
-                  : "bg-amber-950/80 border-amber-700/50"
-              }`}
+              className="bg-amber-950/80 border border-amber-700/50 rounded-2xl p-6 shadow-warm-sm"
               data-ocid="product-safety-panel"
             >
               <div className="flex items-center gap-2 mb-3">
-                <AlertTriangle
-                  className={`w-5 h-5 ${isHighRisk ? "text-destructive" : "text-amber-400"}`}
-                />
-                <h2
-                  className={`font-display text-lg font-bold ${
-                    isHighRisk ? "text-destructive" : "text-amber-200"
-                  }`}
-                >
+                <AlertTriangle className="w-5 h-5 text-amber-400" />
+                <h2 className="font-display text-lg font-bold text-amber-200">
                   Safety Warnings
                 </h2>
-                <span
-                  className={`ml-auto text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                    isHighRisk
-                      ? "bg-destructive/20 text-destructive"
-                      : "bg-amber-700/50 text-amber-300"
-                  }`}
-                >
+                <span className="ml-auto text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-700/50 text-amber-300">
                   {safetyInfo.label}
                 </span>
               </div>
-
               <ul className="space-y-2" aria-label="Safety instructions">
                 {safetyInfo.tips.map((tip) => (
                   <li
                     key={tip}
-                    className={`flex items-start gap-2 text-sm ${
-                      isHighRisk ? "text-destructive/90" : "text-amber-100/90"
-                    }`}
+                    className="flex items-start gap-2 text-sm text-amber-100/90"
                   >
-                    <Zap
-                      className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
-                        isHighRisk ? "text-destructive" : "text-amber-400"
-                      }`}
-                    />
+                    <Zap className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-amber-400" />
                     {tip}
                   </li>
                 ))}
               </ul>
-
-              <p
-                className={`mt-4 text-xs leading-relaxed ${
-                  isHighRisk ? "text-destructive/70" : "text-amber-300/70"
-                }`}
-              >
+              <p className="mt-4 text-xs leading-relaxed text-amber-300/70">
                 Always follow the manufacturer's instructions. Misuse of
-                fireworks is illegal and dangerous. Keep a fire extinguisher or
-                bucket of water close at hand.
+                fireworks is illegal and dangerous.
               </p>
             </motion.div>
           </div>
@@ -522,55 +518,56 @@ export function ProductDetailPage() {
               More {categoryLabel(product.category)}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {related.map((p, i) => (
-                <motion.div
-                  key={p.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: i * 0.1 }}
-                >
-                  <Link
-                    to="/products/$id"
-                    params={{ id: p.id }}
-                    className="block group"
-                    data-ocid={`related-product-${p.id}`}
+              {related.map((p, i) => {
+                const relPct = discountPct(p.actualPrice, p.discountPrice);
+                return (
+                  <motion.div
+                    key={p.id}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: i * 0.1 }}
                   >
-                    <div className="bg-card rounded-xl overflow-hidden shadow-warm-sm hover:shadow-warm-md transition-all duration-300 hover:-translate-y-0.5 border border-border/50">
-                      <div className="aspect-[4/3] overflow-hidden bg-muted relative">
-                        <img
-                          src={p.imageUrl}
-                          alt={p.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
-                          loading="lazy"
-                        />
-                        {!p.inStock && (
-                          <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
-                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider bg-card/80 px-3 py-1 rounded-lg">
-                              Out of Stock
+                    <Link
+                      to="/products/$id"
+                      params={{ id: p.id }}
+                      className="block group"
+                      data-ocid={`related-product-${p.id}`}
+                    >
+                      <div className="bg-card rounded-xl overflow-hidden shadow-warm-sm hover:shadow-warm-md transition-all duration-300 hover:-translate-y-0.5 border border-border/50">
+                        <div className="aspect-[4/3] overflow-hidden bg-muted relative">
+                          <img
+                            src={p.imageUrl}
+                            alt={p.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
+                            loading="lazy"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src =
+                                "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&q=60";
+                            }}
+                          />
+                          <span className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded">
+                            {relPct}% OFF
+                          </span>
+                        </div>
+                        <div className="p-3">
+                          <p className="font-display font-bold text-sm text-foreground line-clamp-1 mb-1">
+                            {p.name}
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-muted-foreground line-through">
+                              ₹{p.actualPrice}
+                            </span>
+                            <span className="font-body font-bold text-foreground text-sm">
+                              ₹{p.discountPrice}
                             </span>
                           </div>
-                        )}
-                      </div>
-                      <div className="p-3">
-                        <p className="font-display font-bold text-sm text-foreground line-clamp-1 mb-1">
-                          {p.name}
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <p className="font-body font-bold text-foreground text-sm">
-                            ₹{p.price.toFixed(0)}
-                          </p>
-                          {p.minAge >= 18 && (
-                            <span className="text-[10px] font-bold text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">
-                              18+
-                            </span>
-                          )}
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>

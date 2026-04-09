@@ -1,22 +1,28 @@
 export type Category =
-  | "Sparklers"
-  | "Rockets"
-  | "FlowerPots"
-  | "GroundChakkar"
-  | "AerialShots"
-  | "Bombs"
-  | "Novelty";
+  | "sky-riders"
+  | "multiple-skyriders"
+  | "hand-sparklers"
+  | "flower-pots"
+  | "magical-spinner"
+  | "kids-world"
+  | "fancy-fountain"
+  | "sound-blaster"
+  | "paper-sound-blaster"
+  | "multiple-sound-blaster";
 
 export interface Product {
   id: string;
   name: string;
   description: string;
-  price: number; // INR
+  price: number; // = discountPrice, kept for cart compatibility
+  actualPrice: number; // original / strikethrough price
+  discountPrice: number; // sale price
+  quantityUnit: string; // e.g. "1 Box", "1 Piece", "1 Packet"
   imageUrl: string;
   category: Category;
-  packSize: string;
+  packSize: string; // same as quantityUnit for display
   effectDuration: string;
-  safetyRating: number; // 1-5
+  safetyRating: number; // 1–5
   minAge: number;
   inStock: boolean;
   badge?: string;

@@ -1,18 +1,45 @@
-import type { Product } from "../types/product";
-
-function p(
-  id: string,
-  name: string,
-  description: string,
-  actualPrice: number,
-  discountPrice: number,
-  quantityUnit: string,
-  category: Product["category"],
-  effectDuration: string,
-  safetyRating: number,
-  minAge: number,
-  badge?: string,
-): Product {
+import { c as createLucideIcon } from "./index-DCZIsMCk.js";
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$2 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+const Check = createLucideIcon("check", __iconNode$2);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$1 = [
+  [
+    "path",
+    {
+      d: "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
+      key: "r04s7s"
+    }
+  ]
+];
+const Star = createLucideIcon("star", __iconNode$1);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z",
+      key: "1xq2db"
+    }
+  ]
+];
+const Zap = createLucideIcon("zap", __iconNode);
+function p(id, name, description, actualPrice, discountPrice, quantityUnit, category, effectDuration, safetyRating, minAge, badge) {
   return {
     id,
     name,
@@ -28,11 +55,10 @@ function p(
     safetyRating,
     minAge,
     inStock: true,
-    badge,
+    badge
   };
 }
-
-export const products: Product[] = [
+const products = [
   // ── SKY RIDERS ──────────────────────────────────────────────────────────────
   p(
     "chotta-skyshot",
@@ -44,7 +70,7 @@ export const products: Product[] = [
     "sky-riders",
     "~5 sec",
     4,
-    14,
+    14
   ),
   p(
     "mini-chotta-skyshot",
@@ -56,7 +82,7 @@ export const products: Product[] = [
     "sky-riders",
     "~4 sec",
     4,
-    14,
+    14
   ),
   p(
     "2-sound",
@@ -68,7 +94,7 @@ export const products: Product[] = [
     "sky-riders",
     "~2 sec",
     4,
-    14,
+    14
   ),
   p(
     "3-sound",
@@ -80,7 +106,7 @@ export const products: Product[] = [
     "sky-riders",
     "~3 sec",
     4,
-    14,
+    14
   ),
   p(
     "air-rider",
@@ -92,7 +118,7 @@ export const products: Product[] = [
     "sky-riders",
     "~6 sec",
     4,
-    14,
+    14
   ),
   p(
     "skyshot",
@@ -104,7 +130,7 @@ export const products: Product[] = [
     "sky-riders",
     "~5 sec",
     4,
-    14,
+    14
   ),
   p(
     "2-inch-fancy",
@@ -117,7 +143,7 @@ export const products: Product[] = [
     "~8 sec",
     4,
     14,
-    "Popular",
+    "Popular"
   ),
   p(
     "3-inch-fancy",
@@ -130,7 +156,7 @@ export const products: Product[] = [
     "~10 sec",
     4,
     14,
-    "Best Seller",
+    "Best Seller"
   ),
   p(
     "3-5-inch-fancy",
@@ -143,7 +169,7 @@ export const products: Product[] = [
     "~12 sec",
     4,
     14,
-    "Premium",
+    "Premium"
   ),
   p(
     "3-piece-fancy",
@@ -155,7 +181,7 @@ export const products: Product[] = [
     "sky-riders",
     "~30 sec",
     4,
-    14,
+    14
   ),
   p(
     "double-ball-fancy",
@@ -167,7 +193,7 @@ export const products: Product[] = [
     "sky-riders",
     "~10 sec",
     4,
-    14,
+    14
   ),
   p(
     "baby-rocket",
@@ -179,7 +205,7 @@ export const products: Product[] = [
     "sky-riders",
     "~5 sec",
     4,
-    14,
+    14
   ),
   p(
     "rocket-bomb",
@@ -191,7 +217,7 @@ export const products: Product[] = [
     "sky-riders",
     "~6 sec",
     4,
-    14,
+    14
   ),
   p(
     "2-inch-s-rocket",
@@ -203,7 +229,7 @@ export const products: Product[] = [
     "sky-riders",
     "~8 sec",
     4,
-    14,
+    14
   ),
   p(
     "3-inch-s-rocket",
@@ -215,7 +241,7 @@ export const products: Product[] = [
     "sky-riders",
     "~10 sec",
     4,
-    14,
+    14
   ),
   p(
     "lunic-rocket",
@@ -227,7 +253,7 @@ export const products: Product[] = [
     "sky-riders",
     "~10 sec",
     4,
-    14,
+    14
   ),
   p(
     "whistling-rocket",
@@ -239,7 +265,7 @@ export const products: Product[] = [
     "sky-riders",
     "~8 sec",
     4,
-    14,
+    14
   ),
   p(
     "drone",
@@ -252,7 +278,7 @@ export const products: Product[] = [
     "~12 sec",
     4,
     14,
-    "New Arrival",
+    "New Arrival"
   ),
   p(
     "helicopter",
@@ -264,9 +290,8 @@ export const products: Product[] = [
     "sky-riders",
     "~10 sec",
     4,
-    14,
+    14
   ),
-
   // ── MULTIPLE SKYRIDERS ──────────────────────────────────────────────────────
   p(
     "7-shot",
@@ -278,7 +303,7 @@ export const products: Product[] = [
     "multiple-skyriders",
     "~20 sec",
     4,
-    14,
+    14
   ),
   p(
     "12-shot",
@@ -291,7 +316,7 @@ export const products: Product[] = [
     "~35 sec",
     4,
     14,
-    "Popular",
+    "Popular"
   ),
   p(
     "15-shot",
@@ -303,7 +328,7 @@ export const products: Product[] = [
     "multiple-skyriders",
     "~45 sec",
     4,
-    14,
+    14
   ),
   p(
     "30-shot",
@@ -316,7 +341,7 @@ export const products: Product[] = [
     "~60 sec",
     4,
     14,
-    "Best Seller",
+    "Best Seller"
   ),
   p(
     "60-shot",
@@ -329,7 +354,7 @@ export const products: Product[] = [
     "~90 sec",
     4,
     14,
-    "Grand Finale",
+    "Grand Finale"
   ),
   p(
     "120-shot",
@@ -342,7 +367,7 @@ export const products: Product[] = [
     "~2 min",
     4,
     14,
-    "Premium",
+    "Premium"
   ),
   p(
     "240-shot",
@@ -355,9 +380,8 @@ export const products: Product[] = [
     "~4 min",
     4,
     14,
-    "Ultimate",
+    "Ultimate"
   ),
-
   // ── HAND SPARKLERS ──────────────────────────────────────────────────────────
   p(
     "7cm-sparkler",
@@ -369,7 +393,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~15 sec",
     3,
-    8,
+    8
   ),
   p(
     "7cm-colour-sparkler",
@@ -381,7 +405,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~15 sec",
     3,
-    8,
+    8
   ),
   p(
     "10cm-sparkler",
@@ -394,7 +418,7 @@ export const products: Product[] = [
     "~30 sec",
     3,
     8,
-    "Family Favorite",
+    "Family Favorite"
   ),
   p(
     "10cm-colour-sparkler",
@@ -406,7 +430,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~30 sec",
     3,
-    8,
+    8
   ),
   p(
     "15cm-sparkler",
@@ -418,7 +442,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~50 sec",
     3,
-    8,
+    8
   ),
   p(
     "15cm-colour-sparkler",
@@ -430,7 +454,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~50 sec",
     3,
-    8,
+    8
   ),
   p(
     "30cm-sparkler",
@@ -442,7 +466,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~90 sec",
     3,
-    8,
+    8
   ),
   p(
     "30cm-colour-sparkler",
@@ -454,7 +478,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~90 sec",
     3,
-    8,
+    8
   ),
   p(
     "50cm-sparkler",
@@ -466,7 +490,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~2 min",
     3,
-    8,
+    8
   ),
   p(
     "thunder-pencil",
@@ -478,7 +502,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~90 sec",
     3,
-    8,
+    8
   ),
   p(
     "burfi-pencil",
@@ -490,7 +514,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~60 sec",
     3,
-    8,
+    8
   ),
   p(
     "50-50-pencil",
@@ -502,7 +526,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~75 sec",
     3,
-    8,
+    8
   ),
   p(
     "1-5-feet-sattai",
@@ -514,7 +538,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~2 min",
     3,
-    8,
+    8
   ),
   p(
     "4-feet-sattai",
@@ -526,7 +550,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~5 min",
     3,
-    8,
+    8
   ),
   p(
     "selfie-stick",
@@ -539,7 +563,7 @@ export const products: Product[] = [
     "~90 sec",
     3,
     8,
-    "Popular",
+    "Popular"
   ),
   p(
     "lollipop",
@@ -551,7 +575,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~2 min",
     3,
-    8,
+    8
   ),
   p(
     "rainbow-fog",
@@ -563,7 +587,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~60 sec",
     3,
-    8,
+    8
   ),
   p(
     "star-rain",
@@ -576,7 +600,7 @@ export const products: Product[] = [
     "~75 sec",
     3,
     8,
-    "New Arrival",
+    "New Arrival"
   ),
   p(
     "colour-rain",
@@ -588,7 +612,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~60 sec",
     3,
-    8,
+    8
   ),
   p(
     "5-in-1-colour-matches",
@@ -600,7 +624,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~30 sec",
     3,
-    8,
+    8
   ),
   p(
     "10-in-1-colour-matches",
@@ -612,7 +636,7 @@ export const products: Product[] = [
     "hand-sparklers",
     "~60 sec",
     3,
-    8,
+    8
   ),
   p(
     "spinning-sparklers",
@@ -624,9 +648,8 @@ export const products: Product[] = [
     "hand-sparklers",
     "~60 sec",
     3,
-    8,
+    8
   ),
-
   // ── FLOWER POTS ─────────────────────────────────────────────────────────────
   p(
     "flower-pot-small",
@@ -638,7 +661,7 @@ export const products: Product[] = [
     "flower-pots",
     "~30 sec",
     3,
-    14,
+    14
   ),
   p(
     "flower-pot-big",
@@ -651,7 +674,7 @@ export const products: Product[] = [
     "~50 sec",
     3,
     14,
-    "Best Seller",
+    "Best Seller"
   ),
   p(
     "flower-pot-special",
@@ -663,7 +686,7 @@ export const products: Product[] = [
     "flower-pots",
     "~60 sec",
     3,
-    14,
+    14
   ),
   p(
     "flower-pot-ashoka",
@@ -675,7 +698,7 @@ export const products: Product[] = [
     "flower-pots",
     "~65 sec",
     3,
-    14,
+    14
   ),
   p(
     "flower-pot-super",
@@ -688,7 +711,7 @@ export const products: Product[] = [
     "~75 sec",
     3,
     14,
-    "Popular",
+    "Popular"
   ),
   p(
     "flower-pot-deluxe",
@@ -700,7 +723,7 @@ export const products: Product[] = [
     "flower-pots",
     "~70 sec",
     3,
-    14,
+    14
   ),
   p(
     "flower-pot-colour",
@@ -712,9 +735,8 @@ export const products: Product[] = [
     "flower-pots",
     "~60 sec",
     3,
-    14,
+    14
   ),
-
   // ── MAGICAL SPINNER ─────────────────────────────────────────────────────────
   p(
     "spinner",
@@ -726,7 +748,7 @@ export const products: Product[] = [
     "magical-spinner",
     "~25 sec",
     3,
-    14,
+    14
   ),
   p(
     "disco-wheel",
@@ -739,7 +761,7 @@ export const products: Product[] = [
     "~35 sec",
     3,
     14,
-    "Popular",
+    "Popular"
   ),
   p(
     "big-chakra",
@@ -751,7 +773,7 @@ export const products: Product[] = [
     "magical-spinner",
     "~30 sec",
     3,
-    14,
+    14
   ),
   p(
     "special-chakra",
@@ -763,7 +785,7 @@ export const products: Product[] = [
     "magical-spinner",
     "~35 sec",
     3,
-    14,
+    14
   ),
   p(
     "deluxe-chakra",
@@ -775,7 +797,7 @@ export const products: Product[] = [
     "magical-spinner",
     "~40 sec",
     3,
-    14,
+    14
   ),
   p(
     "butterfly",
@@ -787,7 +809,7 @@ export const products: Product[] = [
     "magical-spinner",
     "~40 sec",
     3,
-    14,
+    14
   ),
   p(
     "lotus",
@@ -800,9 +822,8 @@ export const products: Product[] = [
     "~45 sec",
     3,
     14,
-    "New Arrival",
+    "New Arrival"
   ),
-
   // ── KIDS WORLD ──────────────────────────────────────────────────────────────
   p(
     "photo-flash",
@@ -814,7 +835,7 @@ export const products: Product[] = [
     "kids-world",
     "Instant",
     2,
-    5,
+    5
   ),
   p(
     "chitput",
@@ -826,7 +847,7 @@ export const products: Product[] = [
     "kids-world",
     "Instant",
     2,
-    5,
+    5
   ),
   p(
     "stone",
@@ -838,7 +859,7 @@ export const products: Product[] = [
     "kids-world",
     "Instant",
     2,
-    5,
+    5
   ),
   p(
     "roll-cap",
@@ -850,7 +871,7 @@ export const products: Product[] = [
     "kids-world",
     "Instant",
     1,
-    5,
+    5
   ),
   p(
     "snake",
@@ -862,7 +883,7 @@ export const products: Product[] = [
     "kids-world",
     "~30 sec",
     1,
-    5,
+    5
   ),
   p(
     "bat-and-ball",
@@ -874,7 +895,7 @@ export const products: Product[] = [
     "kids-world",
     "~20 sec",
     2,
-    5,
+    5
   ),
   p(
     "cartoon",
@@ -886,7 +907,7 @@ export const products: Product[] = [
     "kids-world",
     "~15 sec",
     2,
-    5,
+    5
   ),
   p(
     "ostrich",
@@ -898,7 +919,7 @@ export const products: Product[] = [
     "kids-world",
     "~20 sec",
     2,
-    5,
+    5
   ),
   p(
     "car",
@@ -911,7 +932,7 @@ export const products: Product[] = [
     "~25 sec",
     2,
     5,
-    "Popular",
+    "Popular"
   ),
   p(
     "super-singer",
@@ -923,9 +944,8 @@ export const products: Product[] = [
     "kids-world",
     "~30 sec",
     2,
-    5,
+    5
   ),
-
   // ── FANCY FOUNTAIN ──────────────────────────────────────────────────────────
   p(
     "peacock",
@@ -938,7 +958,7 @@ export const products: Product[] = [
     "~60 sec",
     3,
     14,
-    "Best Seller",
+    "Best Seller"
   ),
   p(
     "peacock-big",
@@ -951,7 +971,7 @@ export const products: Product[] = [
     "~90 sec",
     3,
     14,
-    "Premium",
+    "Premium"
   ),
   p(
     "peacock-feather",
@@ -963,7 +983,7 @@ export const products: Product[] = [
     "fancy-fountain",
     "~45 sec",
     3,
-    14,
+    14
   ),
   p(
     "tri-colour",
@@ -975,7 +995,7 @@ export const products: Product[] = [
     "fancy-fountain",
     "~75 sec",
     3,
-    14,
+    14
   ),
   p(
     "siren",
@@ -987,7 +1007,7 @@ export const products: Product[] = [
     "fancy-fountain",
     "~60 sec",
     3,
-    14,
+    14
   ),
   p(
     "golden-globe",
@@ -999,7 +1019,7 @@ export const products: Product[] = [
     "fancy-fountain",
     "~50 sec",
     3,
-    14,
+    14
   ),
   p(
     "kurkuray",
@@ -1012,7 +1032,7 @@ export const products: Product[] = [
     "~90 sec",
     3,
     14,
-    "Grand Finale",
+    "Grand Finale"
   ),
   p(
     "sing-pop",
@@ -1024,7 +1044,7 @@ export const products: Product[] = [
     "fancy-fountain",
     "~60 sec",
     3,
-    14,
+    14
   ),
   p(
     "fox-star",
@@ -1036,7 +1056,7 @@ export const products: Product[] = [
     "fancy-fountain",
     "~50 sec",
     3,
-    14,
+    14
   ),
   p(
     "balae-balae",
@@ -1048,7 +1068,7 @@ export const products: Product[] = [
     "fancy-fountain",
     "~65 sec",
     3,
-    14,
+    14
   ),
   p(
     "asurapie",
@@ -1060,9 +1080,8 @@ export const products: Product[] = [
     "fancy-fountain",
     "~60 sec",
     3,
-    14,
+    14
   ),
-
   // ── SOUND BLASTER ───────────────────────────────────────────────────────────
   p(
     "50-bigili",
@@ -1074,7 +1093,7 @@ export const products: Product[] = [
     "sound-blaster",
     "~20 sec",
     4,
-    14,
+    14
   ),
   p(
     "100-bigili",
@@ -1086,7 +1105,7 @@ export const products: Product[] = [
     "sound-blaster",
     "~40 sec",
     4,
-    14,
+    14
   ),
   p(
     "2-75-kuruvi",
@@ -1098,7 +1117,7 @@ export const products: Product[] = [
     "sound-blaster",
     "~5 sec",
     4,
-    14,
+    14
   ),
   p(
     "4-inch-gold-lakshmi",
@@ -1111,7 +1130,7 @@ export const products: Product[] = [
     "Instant",
     4,
     14,
-    "Popular",
+    "Popular"
   ),
   p(
     "4-inch-lakshmi-deluxe",
@@ -1123,7 +1142,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "4-inch-lakshmi",
@@ -1135,7 +1154,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "3-5-lakshmi",
@@ -1147,7 +1166,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "atom-bomb",
@@ -1159,7 +1178,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "hydro-bomb",
@@ -1171,7 +1190,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "super-bomb",
@@ -1183,7 +1202,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "classic-bomb",
@@ -1195,7 +1214,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "jurassic-bomb",
@@ -1208,7 +1227,7 @@ export const products: Product[] = [
     "Instant",
     4,
     14,
-    "Grand Finale",
+    "Grand Finale"
   ),
   p(
     "bullet-bomb",
@@ -1220,7 +1239,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "555-timing-bomb",
@@ -1232,7 +1251,7 @@ export const products: Product[] = [
     "sound-blaster",
     "Delayed",
     4,
-    14,
+    14
   ),
   p(
     "terrible-bomb",
@@ -1245,9 +1264,8 @@ export const products: Product[] = [
     "Instant",
     4,
     14,
-    "Premium",
+    "Premium"
   ),
-
   // ── PAPER SOUND BLASTER ─────────────────────────────────────────────────────
   p(
     "quarter-kg-paper-bomb",
@@ -1259,7 +1277,7 @@ export const products: Product[] = [
     "paper-sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "half-kg-paper-bomb",
@@ -1271,7 +1289,7 @@ export const products: Product[] = [
     "paper-sound-blaster",
     "Instant",
     4,
-    14,
+    14
   ),
   p(
     "1kg-paper-bomb",
@@ -1284,7 +1302,7 @@ export const products: Product[] = [
     "Instant",
     4,
     14,
-    "Popular",
+    "Popular"
   ),
   p(
     "2kg-paper-bomb",
@@ -1297,7 +1315,7 @@ export const products: Product[] = [
     "Instant",
     4,
     14,
-    "Grand Finale",
+    "Grand Finale"
   ),
   p(
     "10-in-1-paper-bomb",
@@ -1309,7 +1327,7 @@ export const products: Product[] = [
     "paper-sound-blaster",
     "~30 sec",
     4,
-    14,
+    14
   ),
   p(
     "money-bank-bomb",
@@ -1322,9 +1340,8 @@ export const products: Product[] = [
     "Instant",
     4,
     14,
-    "New Arrival",
+    "New Arrival"
   ),
-
   // ── MULTIPLE SOUND BLASTER ──────────────────────────────────────────────────
   p(
     "100-waala",
@@ -1336,7 +1353,7 @@ export const products: Product[] = [
     "multiple-sound-blaster",
     "~20 sec",
     4,
-    14,
+    14
   ),
   p(
     "200-waala",
@@ -1348,7 +1365,7 @@ export const products: Product[] = [
     "multiple-sound-blaster",
     "~35 sec",
     4,
-    14,
+    14
   ),
   p(
     "300-waala",
@@ -1360,7 +1377,7 @@ export const products: Product[] = [
     "multiple-sound-blaster",
     "~50 sec",
     4,
-    14,
+    14
   ),
   p(
     "600-waala",
@@ -1372,7 +1389,7 @@ export const products: Product[] = [
     "multiple-sound-blaster",
     "~90 sec",
     4,
-    14,
+    14
   ),
   p(
     "1000-waala",
@@ -1385,7 +1402,7 @@ export const products: Product[] = [
     "~2 min",
     4,
     14,
-    "Popular",
+    "Popular"
   ),
   p(
     "2000-waala",
@@ -1398,7 +1415,7 @@ export const products: Product[] = [
     "~3 min",
     4,
     14,
-    "Best Seller",
+    "Best Seller"
   ),
   p(
     "5000-waala",
@@ -1411,7 +1428,7 @@ export const products: Product[] = [
     "~6 min",
     4,
     14,
-    "Grand Finale",
+    "Grand Finale"
   ),
   p(
     "10000-waala",
@@ -1424,7 +1441,7 @@ export const products: Product[] = [
     "~12 min",
     4,
     14,
-    "Ultimate",
+    "Ultimate"
   ),
   p(
     "28-waala",
@@ -1436,7 +1453,7 @@ export const products: Product[] = [
     "multiple-sound-blaster",
     "~8 sec",
     4,
-    14,
+    14
   ),
   p(
     "28-giant-waala",
@@ -1448,7 +1465,7 @@ export const products: Product[] = [
     "multiple-sound-blaster",
     "~10 sec",
     4,
-    14,
+    14
   ),
   p(
     "24-deluxe-waala",
@@ -1460,7 +1477,7 @@ export const products: Product[] = [
     "multiple-sound-blaster",
     "~12 sec",
     4,
-    14,
+    14
   ),
   p(
     "50-deluxe-waala",
@@ -1472,7 +1489,7 @@ export const products: Product[] = [
     "multiple-sound-blaster",
     "~20 sec",
     4,
-    14,
+    14
   ),
   p(
     "100-deluxe-waala",
@@ -1485,11 +1502,10 @@ export const products: Product[] = [
     "~35 sec",
     4,
     14,
-    "Premium",
-  ),
+    "Premium"
+  )
 ];
-
-export const categories: { value: string; label: string }[] = [
+const categories = [
   { value: "all", label: "All Crackers" },
   { value: "sky-riders", label: "Sky Riders" },
   { value: "multiple-skyriders", label: "Multiple Skyriders" },
@@ -1500,5 +1516,12 @@ export const categories: { value: string; label: string }[] = [
   { value: "fancy-fountain", label: "Fancy Fountain" },
   { value: "sound-blaster", label: "Sound Blaster" },
   { value: "paper-sound-blaster", label: "Paper Sound Blaster" },
-  { value: "multiple-sound-blaster", label: "Multiple Sound Blaster" },
+  { value: "multiple-sound-blaster", label: "Multiple Sound Blaster" }
 ];
+export {
+  Check as C,
+  Star as S,
+  Zap as Z,
+  categories as c,
+  products as p
+};
